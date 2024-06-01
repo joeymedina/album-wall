@@ -11,6 +11,13 @@ interface Playlist {
   images: { url: string }[];
 }
 
+interface Song {
+  id: string;
+  name: string;
+  artist: string;
+  artworkUrl: string; // Add artwork URL property
+}
+
 const getAccessToken = async (): Promise<string> => {
   const params = new URLSearchParams();
   params.append('grant_type', 'client_credentials');
@@ -37,4 +44,26 @@ const getFeaturedPlaylists = async (): Promise<Playlist[]> => {
   return data.playlists.items;
 };
 
-export default { getFeaturedPlaylists };
+const searchSongs = async (query: string): Promise<Song[]> => {
+  try {
+    const token = await getAccessToken();
+
+    const { data } = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return data.tracks.items.map((item: any) => ({
+      id: item.id,
+      name: item.name,
+      artist: item.artists[0].name,
+      artworkUrl: item.album.images[0].url
+    }));
+  } catch (error) {
+    console.error('Error searching for songs:', error);
+    throw error; // Propagate the error to the caller
+  }
+};
+
+export default { getFeaturedPlaylists, searchSongs };
