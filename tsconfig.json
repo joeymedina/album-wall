@@ -1,0 +1,9 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.json",
+    "include": ["src/**/*"],
+    "compilerOptions": {
+      "isolatedModules": false,
+      "strict": true,
+      "types": ["node", "vite/client"]
+    }
+  }
