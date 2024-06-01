@@ -1,0 +1,17 @@
+{
+    "name": "Vue Vite Dev Container",
+    "context": "..",
+    "dockerFile": "Dockerfile",
+    "appPort": [5173],
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "Vue.volar",
+        "ms-azuretools.vscode-docker"
+    ],
+    "postCreateCommand": "npm install",
+    "remoteUser": "node"
+  }
