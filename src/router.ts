@@ -1,11 +1,11 @@
 // src/router.ts
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import FeaturedPlaylists from './components/FeaturedPlaylists.vue'
-import SongSearch from './components/SongSearch.vue';
+import App from './components/App.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/featured', component: FeaturedPlaylists },
-  {path: '/',component: SongSearch}
+  {path: '/',component: App}
 ];
 
 const router = createRouter({
