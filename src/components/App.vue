@@ -10,7 +10,7 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, onMounted, ref } from 'vue';
   import SongSearch from './SongSearch.vue';
   import SelectedSongs from './SelectedSongs.vue';
   
@@ -27,19 +27,35 @@
       SongSearch,
       SelectedSongs,
     },
+    
     setup() {
+
+          // Load saved songs from localStorage on mount
+    onMounted(() => {
+      const savedSongs = localStorage.getItem('selectedSongs');
+      if (savedSongs) {
+        selectedSongs.value = JSON.parse(savedSongs);
+      }
+    });
+    
       const selectedSongs = ref<Song[]>([]);
   
       const addSong = (song: Song) => {
         if (!selectedSongs.value.some(s => s.id === song.id)) {
           selectedSongs.value.push(song);
+          saveSongs();
         }
       };
   
       const updateSelectedSongs = (songs: Song[]) => {
         selectedSongs.value = songs;
-      };
-  
+        saveSongs();
+    };
+
+    const saveSongs = () => {
+      localStorage.setItem('selectedSongs', JSON.stringify(selectedSongs.value));
+    };
+
       return { selectedSongs, addSong, updateSelectedSongs };
     },
   });
