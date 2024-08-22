@@ -1,9 +1,10 @@
 {
     "extends": "@vue/tsconfig/tsconfig.json",
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "backend/models", "backend/services", "backend/config", "backend/db"],
     "compilerOptions": {
       "isolatedModules": false,
       "strict": true,
-      "types": ["node", "vite/client"]
+      "types": ["node", "vite/client"],
+      "allowImportingTsExtensions":true
     }
   }
