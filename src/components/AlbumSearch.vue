@@ -5,7 +5,7 @@
       v-model="query"
       @input="search"
       @focus="showResults"
-      placeholder="Search for a song..."
+      placeholder="Search for a album..."
       class="rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:border-indigo-500"
       style="width: 100%; max-width: 600px;"
     />
@@ -15,15 +15,15 @@
       style="width: 100%; max-width: 600px;"
     >
       <li
-        v-for="song in searchResults"
-        :key="song.id"
+        v-for="album in searchResults"
+        :key="album.id"
         class="px-4 py-2 flex items-center cursor-pointer hover:bg-gray-100"
-        @click="selectSong(song)"
+        @click="selectAlbum(album)"
       >
-        <img :src="song.artworkUrl" alt="Artwork" class="w-10 h-10 mr-4">
+        <img :src="album.artworkUrl" alt="Artwork" class="w-10 h-10 mr-4">
         <div>
-          <p class="font-semibold">{{ song.name }}</p>
-          <p class="text-sm text-gray-500">{{ song.artist }}</p>
+          <p class="font-semibold">{{ album.name }}</p>
+          <p class="text-sm text-gray-500">{{ album.artist }}</p>
         </div>
       </li>
     </ul>
@@ -33,7 +33,6 @@
 <script lang="ts">
 import { defineComponent, ref, type PropType, watch } from 'vue';
 import spotifyService from '../services/spotifyServices';
-
 interface Song {
   id: string;
   name: string;
@@ -41,19 +40,27 @@ interface Song {
   artworkUrl: string;
 }
 
+interface Album {
+  id: string;
+  name: string;
+  artist: string;
+  artworkUrl: string;
+  sequence: number;
+}
+
 export default defineComponent({
-  name: 'SongSearch',
+  name: 'AlbumSearch',
   setup(_, { emit }) {
     const query = ref('');
-    const searchResults = ref<Song[]>([]);
+    const searchResults = ref<Album[]>([]);
     const searchResultsVisible = ref(false);
 
     const search = async () => {
       try {
-        searchResults.value = await spotifyService.searchSongs(query.value);
+        searchResults.value = await spotifyService.searchAlbums(query.value);
         searchResultsVisible.value = query.value.length > 0;
       } catch (error) {
-        console.error('Error searching for songs:', error);
+        console.error('Error searching for albums:', error);
       }
     };
 
@@ -69,12 +76,12 @@ export default defineComponent({
       }
     };
 
-    const selectSong = (song: Song) => {
-      emit('song-select', song);
+    const selectAlbum = (album: Album) => {
+      emit('album-select', album);
       searchResultsVisible.value = false;
     };
 
-    return { query, searchResults, searchResultsVisible, search, closeResults, showResults, selectSong };
+    return { query, searchResults, searchResultsVisible, search, closeResults, showResults, selectAlbum };
   },
 });
 </script>

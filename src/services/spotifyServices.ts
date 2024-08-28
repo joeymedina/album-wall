@@ -88,6 +88,7 @@ const searchAlbums = async (query: string): Promise<Album[]> => {
     const albums = data.albums.items;
 
     return albums.map((album: any) => ({
+      id: album.id,
       name: album.name,
       artist: album.artists.map((artist: any) => artist.name).join(', '),
       spotifyUri: album.uri,

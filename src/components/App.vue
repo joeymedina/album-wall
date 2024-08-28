@@ -1,18 +1,18 @@
 <template>
     <div class="app-container">
       <div class="search-bar-container">
-        <SongSearch @song-select="addSong" />
+        <AlbumSearch @album-select="addAlbum" />
       </div>
-      <div class="selected-songs-container">
-        <SelectedSongs :selected-songs="selectedSongs" @update:selected-songs="updateSelectedSongs" />
+      <div class="selected-albums-container">
+        <SelectedAlbums :selected-albums="selectedAlbums" @update:selected-albums="updateSelectedAlbums" />
       </div>
     </div>
   </template>
   
   <script lang="ts">
   import { defineComponent, onMounted, ref } from 'vue';
-  import SongSearch from './SongSearch.vue';
-  import SelectedSongs from './SelectedSongs.vue';
+  import AlbumSearch from './AlbumSearch.vue';
+  import SelectedAlbums from './SelectedAlbums.vue';
   
   interface Song {
     id: string;
@@ -21,42 +21,50 @@
     artworkUrl: string;
   }
   
+  interface Album {
+    id: string;
+    name: string;
+    artist: string;
+    artworkUrl: string;
+    sequence: number;
+  }
+
   export default defineComponent({
     name: 'App',
     components: {
-      SongSearch,
-      SelectedSongs,
+      AlbumSearch,
+      SelectedAlbums,
     },
     
     setup() {
 
-          // Load saved songs from localStorage on mount
+          // Load saved albums from localStorage on mount
     onMounted(() => {
-      const savedSongs = localStorage.getItem('selectedSongs');
-      if (savedSongs) {
-        selectedSongs.value = JSON.parse(savedSongs);
+      const savedAlbums = localStorage.getItem('selectedAlbums');
+      if (savedAlbums) {
+        selectedAlbums.value = JSON.parse(savedAlbums);
       }
     });
     
-      const selectedSongs = ref<Song[]>([]);
+      const selectedAlbums = ref<Album[]>([]);
   
-      const addSong = (song: Song) => {
-        if (!selectedSongs.value.some(s => s.id === song.id)) {
-          selectedSongs.value.push(song);
-          saveSongs();
+      const addAlbum = (album: Album) => {
+        if (!selectedAlbums.value.some(s => s.id === album.id)) {
+          selectedAlbums.value.push(album);
+          saveAlbums();
         }
       };
   
-      const updateSelectedSongs = (songs: Song[]) => {
-        selectedSongs.value = songs;
-        saveSongs();
+      const updateSelectedAlbums = (albums: Album[]) => {
+        selectedAlbums.value = albums;
+        saveAlbums();
     };
 
-    const saveSongs = () => {
-      localStorage.setItem('selectedSongs', JSON.stringify(selectedSongs.value));
+    const saveAlbums = () => {
+      localStorage.setItem('selectedAlbums', JSON.stringify(selectedAlbums.value));
     };
 
-      return { selectedSongs, addSong, updateSelectedSongs };
+      return { selectedAlbums, addAlbum, updateSelectedAlbums };
     },
   });
   </script>
@@ -81,8 +89,8 @@
     max-width: 600px;
   }
   
-  .selected-songs-container {
-    margin-top: 80px; /* Adjust the margin as needed to ensure space between search bar and song cards */
+  .selected-albums-container {
+    margin-top: 80px; /* Adjust the margin as needed to ensure space between search bar and album cards */
     width: 100%;
     max-width: 600px;
   }
