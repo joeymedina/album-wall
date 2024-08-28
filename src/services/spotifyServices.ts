@@ -1,4 +1,3 @@
-// src/services/spotifyService.ts
 import axios from 'axios';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -15,7 +14,15 @@ interface Song {
   id: string;
   name: string;
   artist: string;
-  artworkUrl: string; // Add artwork URL property
+  artworkUrl: string;
+}
+
+interface Album {
+  id: string;
+  name: string;
+  artist: string;
+  artworkUrl: string;
+  sequence: number;
 }
 
 const getAccessToken = async (): Promise<string> => {
@@ -46,9 +53,11 @@ const getFeaturedPlaylists = async (): Promise<Playlist[]> => {
 
 const searchSongs = async (query: string): Promise<Song[]> => {
   try {
+    if (query === '') return [] as Song[];
+
     const token = await getAccessToken();
 
-    const { data } = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+    const { data } = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=tracks`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -66,4 +75,28 @@ const searchSongs = async (query: string): Promise<Song[]> => {
   }
 };
 
-export default { getFeaturedPlaylists, searchSongs };
+const searchAlbums = async (query: string): Promise<Album[]> => {
+  try {
+    if (query === '') return [] as Album[];
+    const token = await getAccessToken();
+
+    const { data } = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=album`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const albums = data.albums.items;
+
+    return albums.map((album: any) => ({
+      name: album.name,
+      artist: album.artists.map((artist: any) => artist.name).join(', '),
+      spotifyUri: album.uri,
+      artworkUrl: album.images.length ? album.images[0].url : ''
+    }));
+  } catch (error) {
+    console.error('Error searching for albums:', error);
+    throw error; // Propagate the error to the caller
+  }
+};
+
+export default { getFeaturedPlaylists, searchSongs, searchAlbums, getAccessToken };

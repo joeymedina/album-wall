@@ -8,6 +8,7 @@ export type CreateAlbumDTO = {
     spotify_uri: string;
     collection_id: string;
     user_id: string;
+    sequence: number;
 }
 
 export type UpdateAlbumDTO = Optional<CreateAlbumDTO, 'name'>

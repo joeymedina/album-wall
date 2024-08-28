@@ -9,6 +9,7 @@ interface AlbumAttributes {
     spotify_uri: string;
     collection_id: string;
     user_id: string;
+    sequence: number;
   };
 
 export interface AlbumInput extends Optional<AlbumAttributes, 'name' | 'artist' > {}
@@ -23,6 +24,7 @@ class album extends Model<AlbumAttributes, AlbumInput> implements AlbumAttribute
   public spotify_uri!: string;
   public collection_id!: string;
   public user_id!: string;
+  public sequence!: number;
 }
 
 album.init(
@@ -53,6 +55,9 @@ album.init(
       type: DataTypes.UUID,
       allowNull: false,
     },
+    sequence: {
+      type: DataTypes.INTEGER
+    }
   },
   {
     timestamps: true,

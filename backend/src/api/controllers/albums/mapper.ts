@@ -9,6 +9,7 @@ export const toAlbum = (album: AlbumOutput): album => {
         spotify_uri: album.spotify_uri,
         artwork_url: album.artwork_url,
         collection_id: album.collection_id,
-        user_id: album.user_id
+        user_id: album.user_id,
+        sequence: album.sequence
     }
 }
