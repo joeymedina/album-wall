@@ -30,7 +30,8 @@ album.init(
     album_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey:  true
+      primaryKey:  true,
+      defaultValue: DataTypes.UUIDV4
     },
     name: {
       type: DataTypes.TEXT,
@@ -54,7 +55,7 @@ album.init(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
     sequelize: sequelizeConnection,
     paranoid: true
   }

@@ -42,3 +42,11 @@ export const getAll = async (filters?: GetAllAlbumsFilters): Promise<AlbumOutput
         ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
     })
 }
+
+export const getAllByCollectionId = async (id: string): Promise<AlbumOutput[]> => {
+    return Album.findAll({
+        where: {
+            collection_id: id
+        }
+    })
+}

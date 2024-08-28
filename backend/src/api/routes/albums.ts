@@ -10,6 +10,7 @@ albumsRouter.get('/:id', async (req: Request, res: Response) => {
     const result = await albumController.getById(id)
     return res.status(200).send(result)
 });
+
 albumsRouter.put('/:id', async (req: Request, res: Response) => {
     const id = String(req.params.id)
     const payload:UpdateAlbumDTO = req.body
@@ -17,6 +18,7 @@ albumsRouter.put('/:id', async (req: Request, res: Response) => {
     const result = await albumController.update(id, payload)
     return res.status(201).send(result)
 });
+
 albumsRouter.delete('/:id', async (req: Request, res: Response) => {
     const id = String(req.params.id)
 
@@ -25,11 +27,13 @@ albumsRouter.delete('/:id', async (req: Request, res: Response) => {
         success: result
     })
 });
+
 albumsRouter.post('/', async (req: Request, res: Response) => {
     const payload:CreateAlbumDTO = req.body
     const result = await albumController.create(payload)
     return res.status(200).send(result)
 });
+
 albumsRouter.get('/', async (req: Request, res: Response) => {
     const filters: GetAllAlbumsFilters = req.query
     
@@ -37,4 +41,14 @@ albumsRouter.get('/', async (req: Request, res: Response) => {
     
     return res.status(200).send(results)
 });
+
+albumsRouter.get('/collection/:id', async (req: Request, res: Response) => {
+    
+    const id = String(req.params.id)
+    
+    const results = await albumController.getAllByCollectionId(id)
+    
+    return res.status(200).send(results)
+});
+
 export default albumsRouter 

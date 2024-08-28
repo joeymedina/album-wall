@@ -20,3 +20,7 @@ export const deleteById = async(id: string): Promise<Boolean> => {
 export const getAll = async(filters: GetAllAlbumsFilters): Promise<album[]> => {
     return (await service.getAll(filters)).map(mapper.toAlbum)
 }
+
+export const getAllByCollectionId = async (id: string): Promise<album[]> => {
+    return (await service.getAllByCollectionId(id)).map(mapper.toAlbum)
+}

@@ -31,6 +31,7 @@ user.init(
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
+        defaultValue: DataTypes.UUIDV4
       },
     // Model attributes are defined here
     name: {
@@ -46,7 +47,7 @@ user.init(
       },
   },
   {
-    timestamps: false,
+    timestamps: true,
     sequelize: sequelizeConnection,
     paranoid: true
   }

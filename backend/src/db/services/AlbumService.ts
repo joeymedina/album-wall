@@ -11,6 +11,11 @@ export const update = (id: string, payload: Partial<AlbumInput>): Promise<AlbumO
 export const getById = (id: string): Promise<AlbumOutput> => {
     return albumDal.getById(id)
 }
+
+export const getAllByCollectionId = (id: string): Promise<AlbumOutput[]> => {
+    return albumDal.getAllByCollectionId(id)
+}
+
 export const deleteById = (id: string): Promise<boolean> => {
     return albumDal.deleteById(id)
 }

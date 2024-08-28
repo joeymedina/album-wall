@@ -22,7 +22,8 @@ collection.init(
     collection_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey:  true
+      primaryKey:  true,
+      defaultValue: DataTypes.UUIDV4
     },
     name: {
       type: DataTypes.TEXT,
@@ -33,7 +34,7 @@ collection.init(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
     sequelize: sequelizeConnection,
     paranoid: true
   }

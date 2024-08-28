@@ -2,6 +2,7 @@ import { Router, Request, Response} from 'express'
 import * as collectionController from '../controllers/collections'
 import { CreateCollectionDTO, UpdateCollectionDTO} from '../dto/collection.dto'
 import { GetAllCollectionsFilters } from '../../db/dal/types'
+import { checkCache } from '../../lib/check-cache'
 
 const collectionsRouter = Router()
 
@@ -34,7 +35,7 @@ collectionsRouter.post('/', async (req: Request, res: Response) => {
     return res.status(200).send(result)
 });
 
-collectionsRouter.get('/', async (req: Request, res: Response) => {
+collectionsRouter.get('/', checkCache, async (req: Request, res: Response) => {
     const filters: GetAllCollectionsFilters = req.query
     
     const results = await collectionController.getAll(filters)
