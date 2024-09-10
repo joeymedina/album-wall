@@ -19,7 +19,7 @@
           </button>
           <div class="relative">
             <img
-              :src="element.artworkUrl"
+              :src="element.artwork_url"
               alt="Artwork"
               class="w-full h-32 object-cover mb-2"
             />
@@ -36,18 +36,11 @@
 import { defineComponent, type PropType, watch, computed } from 'vue';
 import draggable from 'vuedraggable';
 
-interface Song {
-  id: string;
-  name: string;
-  artist: string;
-  artworkUrl: string;
-}
-
 interface Album {
   id: string;
   name: string;
   artist: string;
-  artworkUrl: string;
+  artwork_url: string;
   sequence: number;
 }
 

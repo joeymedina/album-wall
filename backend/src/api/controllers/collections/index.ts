@@ -17,6 +17,9 @@ export const getById = async (id: string): Promise<collection> => {
 }
 export const deleteById = async(id: string): Promise<Boolean> => {
     const isDeleted = await service.deleteById(id)
+    if (isDeleted) {
+        localCache.unset(primaryCacheKey)
+    }
     return isDeleted
 }
 export const getAll = async(filters: GetAllCollectionsFilters): Promise<collection[]> => {

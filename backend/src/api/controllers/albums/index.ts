@@ -13,7 +13,7 @@ export const update = async (id: string, payload: UpdateAlbumDTO): Promise<album
 export const getById = async (id: string): Promise<album> => {
     return mapper.toAlbum(await service.getById(id))
 }
-export const deleteById = async(id: string): Promise<Boolean> => {
+export const deleteById = async(id: string): Promise<boolean> => {
     const isDeleted = await service.deleteById(id)
     return isDeleted
 }

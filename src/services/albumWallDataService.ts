@@ -53,13 +53,26 @@ const updateAlbum = async (id: string, album: Album): Promise<Album> => {
     }
 }
 
+const updateAlbumSequences = async (albums: Album[]): Promise<Album[]> => {
+  try {
+    const { data } = await axios.put(
+      `http://localhost:3000/api/v1/albums/sequence/`,
+      albums
+    );
+    return data;
+  } catch (error) {
+    console.error("Error updating album:", error);
+    return albums;
+  }
+}
+
 const deleteAlbum = async (id: string): Promise<boolean> => {
     try {
       const { data } = await axios.delete(
         `http://localhost:3000/api/v1/albums/${id}`
       );
       console.log("Album deleted successfully!");
-      return data;
+      return true;
     } catch (error) {
       console.error("Error deleting album:", error);
       return false;
@@ -124,7 +137,7 @@ const updateCollection = async (id: string, collection: Collection): Promise<Col
     }
 }
 
-const deleteCollection = async (id: string): Promise<boolean> => {
+const deleteCollection = async (id: string | undefined): Promise<boolean> => {
     try {
       const { data } = await axios.delete(
         `http://localhost:3000/api/v1/collections/${id}`
@@ -214,6 +227,6 @@ const deleteUser = async (id: string): Promise<boolean> => {
 }
 
 
-export { getAllAlbums, getAlbumById, createAlbum, updateAlbum, deleteAlbum, getAlbumsByCollectionId }
+export { getAllAlbums, getAlbumById, createAlbum, updateAlbum, deleteAlbum, getAlbumsByCollectionId, updateAlbumSequences }
 export { getAllCollections, getCollectionById, createCollection, updateCollection, deleteCollection, getCollectionByUserId }
 export { getAllUsers, getUserById, createUser, updateUser, deleteUser }

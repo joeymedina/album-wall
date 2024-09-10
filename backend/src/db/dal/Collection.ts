@@ -39,7 +39,7 @@ export const getAll = async (filters?: GetAllCollectionsFilters): Promise<Collec
         where: {
             ...(filters?.isDeleted && {deletedAt: {[Op.not]: null}})
         },
-        ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
+        // ...((filters?.isDeleted || filters?.includeDeleted) && {paranoid: true})
     })
 }
 

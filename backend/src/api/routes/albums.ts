@@ -2,6 +2,7 @@ import { Router, Request, Response} from 'express'
 import * as albumController from '../controllers/albums'
 import { CreateAlbumDTO, UpdateAlbumDTO} from '../dto/album.dto'
 import { GetAllAlbumsFilters } from '../../db/dal/types'
+import { album } from '../interfaces'
 
 const albumsRouter = Router()
 
@@ -9,6 +10,20 @@ albumsRouter.get('/:id', async (req: Request, res: Response) => {
     const id = String(req.params.id)
     const result = await albumController.getById(id)
     return res.status(200).send(result)
+});
+
+albumsRouter.put('/sequence/', async (req: Request, res: Response) => {
+    let albums  = req.body; // Expect an array of albums with updated sequences
+    let result: album[] = []
+    try {
+      for (const album of albums) {
+        const payload:UpdateAlbumDTO = album
+        result.push(await albumController.update(album.album_id, payload));
+      }
+      return res.status(201).send(result);
+    } catch (err) {
+      res.status(500).json({ error: 'Unable to update album sequence' });
+    }
 });
 
 albumsRouter.put('/:id', async (req: Request, res: Response) => {
@@ -19,13 +34,13 @@ albumsRouter.put('/:id', async (req: Request, res: Response) => {
     return res.status(201).send(result)
 });
 
+
+
 albumsRouter.delete('/:id', async (req: Request, res: Response) => {
     const id = String(req.params.id)
 
-    const result = await albumController.deleteById(id)
-    return res.status(204).send({
-        success: result
-    })
+    const result : boolean = await albumController.deleteById(id)
+    return res.status(204).send(result)
 });
 
 albumsRouter.post('/', async (req: Request, res: Response) => {

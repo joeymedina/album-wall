@@ -47,6 +47,9 @@ export const getAllByCollectionId = async (id: string): Promise<AlbumOutput[]> =
     return Album.findAll({
         where: {
             collection_id: id
-        }
+        },        
+        order: [
+            ['sequence', 'ASC']
+        ],
     })
 }

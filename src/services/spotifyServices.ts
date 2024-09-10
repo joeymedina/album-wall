@@ -14,14 +14,15 @@ interface Song {
   id: string;
   name: string;
   artist: string;
-  artworkUrl: string;
+  artwork_url: string;
 }
 
 interface Album {
   id: string;
   name: string;
   artist: string;
-  artworkUrl: string;
+  artwork_url: string;
+  spotify_uri: string;
   sequence: number;
 }
 
@@ -67,7 +68,8 @@ const searchSongs = async (query: string): Promise<Song[]> => {
       id: item.id,
       name: item.name,
       artist: item.artists[0].name,
-      artworkUrl: item.album.images[0].url
+      artwork_url: item.album.images[0].url,
+      spotify_uri: item.album.uri
     }));
   } catch (error) {
     console.error('Error searching for songs:', error);
@@ -91,8 +93,8 @@ const searchAlbums = async (query: string): Promise<Album[]> => {
       id: album.id,
       name: album.name,
       artist: album.artists.map((artist: any) => artist.name).join(', '),
-      spotifyUri: album.uri,
-      artworkUrl: album.images.length ? album.images[0].url : ''
+      spotify_uri: album.uri,
+      artwork_url: album.images.length ? album.images[0].url : ''
     }));
   } catch (error) {
     console.error('Error searching for albums:', error);
