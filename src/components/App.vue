@@ -60,11 +60,8 @@ export default defineComponent({
 
       if (savedCollections) {
         collections.value = JSON.parse(savedCollections);
-        if (collections.value.length > 0) {
-          // Select the next available collection (could be the first in the remaining list)
-          currentCollection.value = collections.value[0];
-        }
-      } else {
+      } 
+      else {
         // Fetch collections from backend if not in localStorage
         // This is where you could call a service to load collections from your database
         loadCollections();

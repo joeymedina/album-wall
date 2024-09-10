@@ -57,6 +57,10 @@ export default defineComponent({
         // Load collections when component is mounted
         onMounted(async () => {
             collections.value = await getAllCollections();
+            if (collections.value.length > 0) {
+                selectedCollection.value = collections.value[0];
+                emit('collection-selected', collections.value[0].collection_id);
+            }
         });
 
         // Create a new collection
