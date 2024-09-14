@@ -31,11 +31,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, type PropType, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import spotifyService from '../services/spotifyServices';
 import { createAlbum } from '../services/albumWallDataService';
 import type { Collection } from '../interfaces/collection';
-
+import { useAlbumStore } from '../stores/albumStore';
 interface Album {
   id: string;
   name: string;
@@ -47,17 +47,11 @@ interface Album {
 
 export default defineComponent({
   name: 'AlbumSearch',
-  props: {  
-    currentCollection: {
-      type: Object as PropType<Collection | null>,
-      required: false
-    }
-  },
   setup(props, { emit }) {
     const query = ref('');
     const searchResults = ref<Album[]>([]);
     const searchResultsVisible = ref(false);
-
+    const albumStore = useAlbumStore();
     const search = async () => {
       try {
         searchResults.value = await spotifyService.searchAlbums(query.value);
@@ -80,7 +74,7 @@ export default defineComponent({
     };
 
     const selectAlbum = (album: Album) => {
-      emit('album-select', album);
+      albumStore.addAlbum(album);
       searchResultsVisible.value = false;
       addAlbum(album)
     };
@@ -92,7 +86,7 @@ export default defineComponent({
         artwork_url: album.artwork_url,
         spotify_uri: album.spotify_uri,
         sequence: 1,
-        collection_id: props.currentCollection?.collection_id, //change this
+        collection_id: albumStore.currentCollection?.collection_id, //change this
         user_id: '335c6b39-4617-4324-af6c-6281e74398f5' // change this
       };
 
@@ -111,5 +105,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Add any additional styles here if needed */
 </style>

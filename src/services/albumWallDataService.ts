@@ -3,6 +3,15 @@ import type { Album } from '../interfaces/album';
 import type { Collection } from '../interfaces/collection';
 import type { User } from '../interfaces/user';
 
+
+const getFromStorage = (key: string) => {
+  const value = localStorage.getItem(key);
+  if (value) {
+    return JSON.parse(value);
+  }
+  return null;
+}
+
 // ALBUMS
 const getAllAlbums = async (): Promise<Album[]> => {
     try {
@@ -66,7 +75,7 @@ const updateAlbumSequences = async (albums: Album[]): Promise<Album[]> => {
   }
 }
 
-const deleteAlbum = async (id: string): Promise<boolean> => {
+const deleteAlbum = async (id: string | undefined): Promise<boolean> => {
     try {
       const { data } = await axios.delete(
         `http://localhost:3000/api/v1/albums/${id}`
@@ -229,4 +238,4 @@ const deleteUser = async (id: string): Promise<boolean> => {
 
 export { getAllAlbums, getAlbumById, createAlbum, updateAlbum, deleteAlbum, getAlbumsByCollectionId, updateAlbumSequences }
 export { getAllCollections, getCollectionById, createCollection, updateCollection, deleteCollection, getCollectionByUserId }
-export { getAllUsers, getUserById, createUser, updateUser, deleteUser }
+export { getAllUsers, getUserById, createUser, updateUser, deleteUser, getFromStorage };
